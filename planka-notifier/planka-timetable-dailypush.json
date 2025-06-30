@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "name": "Planka-Timetable-DailyPush",
+  "description": "No description provided",
+  "source_url": false,
+  "guid": "ea67f545734ed658f755d97295800bc2",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#c3c51b",
+  "icon": "gear",
+  "exported_at": "2025-06-30T12:23:55Z",
+  "agents": [
+    {
+      "type": "Agents::PushoverAgent",
+      "name": "Planka-TimeTable-Daily-PO",
+      "disabled": false,
+      "guid": "27e03b8b9089786b483fd543a24077e3",
+      "options": {
+        "token": "XXXX",
+        "user": "XXXXX",
+        "message": "{{message}}",
+        "device": "UpulsIphone",
+        "title": "{{ Member }}",
+        "url": "{{ url }}",
+        "url_title": "{{ url_title }}",
+        "priority": "{{ priority }}",
+        "timestamp": "{{ timestamp }}",
+        "sound": "{{ sound }}",
+        "retry": "{{ retry }}",
+        "expire": "{{ expire }}",
+        "ttl": "21240",
+        "html": "true",
+        "expected_receive_period_in_days": "1"
+      },
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::JqAgent",
+      "name": "Planka-OrderBy-DueDate",
+      "disabled": false,
+      "guid": "407bd7afc318af54e00e1689614b5783",
+      "options": {
+        "filter": ".events |= sort_by(.Description) ",
+        "variables": {}
+      },
+      "keep_events_for": 3600,
+      "propagate_immediately": true
+    },
+    {
+      "type": "Agents::WebsiteAgent",
+      "name": "Planka-Timetable-API-Call",
+      "disabled": false,
+      "guid": "6fab305b4a2233b5d4c97efad8b92f52",
+      "options": {
+        "expected_update_period_in_days": "2",
+        "url": "https://api.lab.dolu.win/api/daily-events/1239839965366454161",
+        "type": "json",
+        "mode": "all",
+        "extract": {
+          "Task": {
+            "path": "[*].name"
+          },
+          "Member": {
+            "path": "[*].member"
+          },
+          "DueDate": {
+            "path": "[*].dueDate"
+          },
+          "Description": {
+            "path": "[*].description"
+          }
+        }
+      },
+      "schedule": "never",
+      "keep_events_for": 3600,
+      "propagate_immediately": true
+    },
+    {
+      "type": "Agents::CommanderAgent",
+      "name": "Planka API Run Schedule",
+      "disabled": false,
+      "guid": "8fc5d43a1fe10da9004833c4abd2bde9",
+      "options": {
+        "action": "run"
+      },
+      "schedule": "2pm",
+      "propagate_immediately": true
+    },
+    {
+      "type": "Agents::JavaScriptAgent",
+      "name": "Planka-Final-JS-Agent",
+      "disabled": false,
+      "guid": "94347bef339e93a29d387d97100d05bb",
+      "options": {
+        "language": "JavaScript",
+        "code": "Agent.receive = function() {\r\n  var events = this.incomingEvents();\r\n  var output = { message: \"\" };\r\n  \r\n  for(var i = 0; i < events.length; i++) {\r\n    var singleEvent = events[i].payload;\r\n    for(var j = 0; j < singleEvent.events.length; j++) {    \r\n\r\n      var task = singleEvent.events[j].Task;\r\n      var member = singleEvent.events[j].Member;\r\n      var description = singleEvent.events[j].Description;\r\n      \r\n      var eventInfo = task + \" - \" + member + \" - \" + description;      \r\n      \r\n      if (output.message !== \"\") {\r\n        output.message += \"\\n\"; // Add new line if not the first event\r\n      }\r\n      output.message += eventInfo;\r\n    }\r\n  }\r\n  \r\n  this.createEvent(output);\r\n}\r\n",
+        "expected_receive_period_in_days": "2",
+        "expected_update_period_in_days": "2"
+      },
+      "schedule": "every_1m",
+      "keep_events_for": 3600,
+      "propagate_immediately": true
+    },
+    {
+      "type": "Agents::DigestAgent",
+      "name": "Planka-API-Events",
+      "disabled": false,
+      "guid": "9bda8e3349d5992e6093a78114c98729",
+      "options": {
+        "message": "",
+        "expected_receive_period_in_days": "0",
+        "retained_events": "0"
+      },
+      "schedule": "every_1m",
+      "keep_events_for": 86400,
+      "propagate_immediately": true
+    }
+  ],
+  "links": [
+    {
+      "source": 1,
+      "receiver": 4
+    },
+    {
+      "source": 2,
+      "receiver": 5
+    },
+    {
+      "source": 4,
+      "receiver": 0
+    },
+    {
+      "source": 5,
+      "receiver": 1
+    }
+  ],
+  "control_links": [
+    {
+      "controller": 3,
+      "control_target": 2
+    }
+  ]
+}

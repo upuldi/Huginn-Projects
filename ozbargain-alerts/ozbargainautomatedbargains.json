@@ -34,8 +34,8 @@
       "disabled": false,
       "guid": "98c18979b8800ad94a37553ec0a69c80",
       "options": {
-        "token": "a5qip4aq15wuk5v94orj5xwh3vswrv",
-        "user": "ucqa3y4ddczzx9dhpsfny6fdyiwg52",
+        "token": "XXXX",
+        "user": "XXXX",
         "message": "{{ message }}",
         "device": "iphone",
         "title": "{{ title }}",

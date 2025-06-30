@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "name": "CryptoWatchDigest",
+  "description": "No description provided",
+  "source_url": false,
+  "guid": "d46993781905e51076c46a9d3c38d587",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#5bc0de",
+  "icon": "gear",
+  "exported_at": "2025-06-30T12:37:35Z",
+  "agents": [
+    {
+      "type": "Agents::WebsiteAgent",
+      "name": "CryptoWatchCSAll",
+      "disabled": false,
+      "guid": "426c9dd17fdf1122ea1ff9f7519d8c67",
+      "options": {
+        "expected_update_period_in_days": "2",
+        "url": "https://www.coinspot.com.au/tradecoins",
+        "type": "html",
+        "mode": "on_change",
+        "extract": {
+          "BTC": {
+            "xpath": "//tr[@data-searchstr='BTC BITCOIN BTC BITCOIN'][1]/td[3]/@data-value",
+            "value": "substring(.,0,10)"
+          },
+          "ETH": {
+            "xpath": "//tr[@data-searchstr='ETH ETHEREUM ETH ETHEREUM'][1]/td[3]/@data-value",
+            "value": "substring(.,0,8)"
+          },
+          "ADA": {
+            "xpath": "//tr[@data-searchstr='ADA CARDANO ADA CARDANO'][1]/td[3]/@data-value",
+            "value": "substring(.,0,5)"
+          },
+          "SOL": {
+            "xpath": "//tr[@data-searchstr='SOL SOLANA SOL SOLANA'][1]/td[3]/@data-value",
+            "value": "substring(.,0,7)"
+          },
+          "MATIC": {
+            "xpath": "//tr[@data-searchstr='MATIC MATIC NETWORK POL POLYGON ECOSYSTEM TOKEN'][1]/td[3]/@data-value",
+            "value": "substring(.,0,5)"
+          },
+          "GALA": {
+            "xpath": "//tr[@data-searchstr='GALA GALA GALA GALA'][1]/td[3]/@data-value",
+            "value": "substring(.,0,5)"
+          }
+        }
+      },
+      "schedule": "every_12h",
+      "keep_events_for": 86400,
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::PushoverAgent",
+      "name": "PushOverCryptoDiagest",
+      "disabled": false,
+      "guid": "4d5d1993d8a756f2aefa00a0f588913a",
+      "options": {
+        "token": "XXXXX",
+        "user": "XXXXXXX",
+        "message": "<b style=\"color:#FFC133\">BTC</b> {{ BTC}} <b style=\"color:#A8FF33\">ETH</b> {{ETH}} <b style=\"color:#2A28C8\">ADA</b> {{ADA}} <b style=\"color:#AB28C8\">SOL</b> {{SOL}} <b style=\"color:#C8286A\">MATIC</b> {{MATIC}} <b style=\"color:#6C28C8\">GALA</b> {{GALA}}",
+        "device": "iphone",
+        "title": "{{ Crypto Diagest }}",
+        "url": "{{ url }}",
+        "url_title": "{{ url_title }}",
+        "priority": "{{ priority }}",
+        "timestamp": "{{ timestamp }}",
+        "sound": "{{ sound }}",
+        "retry": "{{ retry }}",
+        "expire": "{{ expire }}",
+        "html": "true",
+        "ttl": 86400,
+        "expected_receive_period_in_days": "1"
+      },
+      "propagate_immediately": false
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "receiver": 1
+    }
+  ],
+  "control_links": []
+}
