@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "name": "WhPoolAPIFinance",
+  "description": "No description provided",
+  "source_url": false,
+  "guid": "7d56cd321a033243b58fb602c9119ffa",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#5bc0de",
+  "icon": "gear",
+  "exported_at": "2025-06-30T11:36:15Z",
+  "agents": [
+    {
+      "type": "Agents::WebsiteAgent",
+      "name": "WP-API-CUSTOM",
+      "disabled": false,
+      "guid": "2010b834685bc9eecbd21250a4e1c15c",
+      "options": {
+        "expected_update_period_in_days": "2",
+        "url": "https://whirlpool.net.au/api/?key=830720-653993-271&get=threads&forumids=150&output=json",
+        "type": "json",
+        "mode": "on_change",
+        "extract": {
+          "title": {
+            "path": "THREADS[*].TITLE"
+          },
+          "group": {
+            "path": "THREADS[*].GROUP"
+          },
+          "lastDate": {
+            "path": "THREADS[*].LAST_DATE"
+          },
+          "id": {
+            "path": "THREADS[*].ID"
+          },
+          "replies": {
+            "path": "THREADS[*].REPLIES"
+          }
+        }
+      },
+      "schedule": "every_1d",
+      "keep_events_for": 0,
+      "propagate_immediately": true
+    },
+    {
+      "type": "Agents::PushoverAgent",
+      "name": "PO-WP-API",
+      "disabled": false,
+      "guid": "f3eff3f6406d326b8d04f2ccd53b50af",
+      "options": {
+        "token": "XXXXX",
+        "user": "XXXXX",
+        "message": " <p>Last Post : https://forums.whirlpool.net.au/thread/{{id}}?p=-1#bottom</p>",
+        "device": "{{ device }}",
+        "title": "{{ title }}",
+        "url": "https://forums.whirlpool.net.au/thread/{{id}}",
+        "url_title": "https://forums.whirlpool.net.au/thread/{{id}}",
+        "priority": "{{ priority }}",
+        "timestamp": "{{ lastDate }}",
+        "sound": "{{ sound }}",
+        "retry": "{{ retry }}",
+        "expire": "{{ expire }}",
+        "ttl": 64800,
+        "html": "true",
+        "expected_receive_period_in_days": "1"
+      },
+      "propagate_immediately": false
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "receiver": 1
+    }
+  ],
+  "control_links": []
+}

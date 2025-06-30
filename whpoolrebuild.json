@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "name": "WhPoolREBuild",
+  "description": "No description provided",
+  "source_url": false,
+  "guid": "07d0a14a39b9f0c95a9b5f14331ba6ea",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#5bc0de",
+  "icon": "gear",
+  "exported_at": "2025-06-30T11:37:20Z",
+  "agents": [
+    {
+      "type": "Agents::WebsiteAgent",
+      "name": "WP-API-RE",
+      "disabled": true,
+      "guid": "31fe8b698c84b1866c65f5e927c35f3b",
+      "options": {
+        "expected_update_period_in_days": "2",
+        "url": "https://whirlpool.net.au/api/?key=830720-653993-271&get=threads&group=Building&forumids=154&output=json",
+        "type": "json",
+        "mode": "on_change",
+        "extract": {
+          "title": {
+            "path": "THREADS[*].TITLE"
+          },
+          "group": {
+            "path": "THREADS[*].GROUP"
+          },
+          "lastDate": {
+            "path": "THREADS[*].LAST_DATE"
+          },
+          "id": {
+            "path": "THREADS[*].ID"
+          },
+          "replies": {
+            "path": "THREADS[*].REPLIES"
+          }
+        }
+      },
+      "schedule": "every_1h",
+      "keep_events_for": 345600,
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::TriggerAgent",
+      "name": "WP-API-RE-TRI",
+      "disabled": true,
+      "guid": "3f8c1d16eb7e3bf19e4ac52b28b5e7b9",
+      "options": {
+        "expected_receive_period_in_days": "30",
+        "rules": [
+          {
+            "type": "regex",
+            "value": "Building",
+            "path": "group"
+          }
+        ],
+        "keep_event": "true"
+      },
+      "keep_events_for": 0,
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::PushoverAgent",
+      "name": "PO-WP-API-RE-Build",
+      "disabled": true,
+      "guid": "89a221491a9069b648c5b0a74b4ce956",
+      "options": {
+        "token": "XXXX",
+        "user": "XXXXX",
+        "message": " <p>Last Post : https://forums.whirlpool.net.au/thread/{{id}}?p=-1#bottom</p>",
+        "device": "{{ device }}",
+        "title": "{{ title }}",
+        "url": "https://forums.whirlpool.net.au/thread/{{id}}",
+        "url_title": "https://forums.whirlpool.net.au/thread/{{id}}",
+        "priority": "{{ priority }}",
+        "timestamp": "{{ lastDate }}",
+        "sound": "{{ sound }}",
+        "retry": "{{ retry }}",
+        "expire": "{{ expire }}",
+        "html": "true",
+        "expected_receive_period_in_days": "1"
+      },
+      "propagate_immediately": true
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "receiver": 1
+    },
+    {
+      "source": 1,
+      "receiver": 2
+    }
+  ],
+  "control_links": []
+}

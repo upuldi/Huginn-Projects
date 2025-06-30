@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "name": "SNSW Fuel Price Check",
+  "description": "No description provided",
+  "source_url": false,
+  "guid": "7b4a4fe82921aece734ff63369ed5fe7",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#5bc0de",
+  "icon": "gear",
+  "exported_at": "2025-06-30T11:21:34Z",
+  "agents": [
+    {
+      "type": "Agents::PushoverAgent",
+      "name": "SNSW-FUEL-10-175-PO",
+      "disabled": false,
+      "guid": "18bacfdc43b594a78b707834873070b7",
+      "options": {
+        "token": "XXXXXXX",
+        "user": "XXXXXXXXX",
+        "message": "  <p> <b>Name:</b> {{Name}} </br>  <b>Address:</b> {{Address}} </br>  <b>Brand:</b> {{Brand}} </br>  <b>Distance:</b> {{Distance}} </br> <b>Price:</b> {{Price}} </br> <b>FuelType:</b> {{FuelType}} </br> </p> http://maps.google.com/?daddr={{Address | url_encode }}  ",
+        "device": "{{ device }}",
+        "title": " {{Name}} - ${{Price}} - {{Distance}} km",
+        "url": "",
+        "url_title": "",
+        "priority": "{{ priority }}",
+        "timestamp": "{{ timestamp }}",
+        "sound": "{{ sound }}",
+        "retry": "{{ retry }}",
+        "expire": "{{ expire }}",
+        "ttl": 345600,
+        "html": "true",
+        "expected_receive_period_in_days": "1"
+      },
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::JqAgent",
+      "name": "SNSW-FUEL-L10-175",
+      "disabled": false,
+      "guid": "2894a63537c1e7bc03736135725ad104",
+      "options": {
+        "filter": "select(( (.Distance |tonumber) < 10) and ( (.Price |tonumber) < 250) )",
+        "variables": {}
+      },
+      "keep_events_for": 0,
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::WebsiteAgent",
+      "name": "SNSW-FUEL-API",
+      "disabled": false,
+      "guid": "31c18e8d49a25f1f6d85548850059233",
+      "options": {
+        "expected_update_period_in_days": "2",
+        "url": "https://api.onegov.nsw.gov.au/FuelCheckApp/v1/fuel/prices/bylocation?bottomLeftLatitude=-33.70631053533049&bottomLeftLongitude=150.84000790859375&topRightLatitude=-33.675173644418884&topRightLongitude=151.08720029140625&fueltype=E10-U91&brands=SelectAll",
+        "type": "json",
+        "mode": "on_change",
+        "extract": {
+          "Name": {
+            "path": "[*].Name"
+          },
+          "Address": {
+            "path": "[*].Address"
+          },
+          "Brand": {
+            "path": "[*].Brand"
+          },
+          "Distance": {
+            "path": "[*].Distance"
+          },
+          "Price": {
+            "path": "[*].Price"
+          },
+          "FuelType": {
+            "path": "[*].FuelType"
+          }
+        }
+      },
+      "schedule": "every_1d",
+      "keep_events_for": 0,
+      "propagate_immediately": false
+    }
+  ],
+  "links": [
+    {
+      "source": 1,
+      "receiver": 0
+    },
+    {
+      "source": 2,
+      "receiver": 1
+    }
+  ],
+  "control_links": []
+}
