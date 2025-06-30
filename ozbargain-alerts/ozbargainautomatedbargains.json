@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "name": "OZBargainAutomatedBargains",
+  "description": "No description provided",
+  "source_url": false,
+  "guid": "9a4d9fde861c2ba6bf61ec5c45661755",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#5bc0de",
+  "icon": "gear",
+  "exported_at": "2025-06-30T12:16:02Z",
+  "agents": [
+    {
+      "type": "Agents::TriggerAgent",
+      "name": "OZBargainRssTriggers",
+      "disabled": false,
+      "guid": "15298cadb107a749b3c4925f24503c5c",
+      "options": {
+        "expected_receive_period_in_days": "30",
+        "rules": [
+          {
+            "type": "regex",
+            "value": "Face Mask | HDD | Mobile Plan | Fan | Hard disk | Boost | Amazon | baby | udemy | Woolworths | oeck | Baby Monitor | monitor | Amazfit | Dyson | Soda",
+            "path": "title"
+          }
+        ],
+        "message": "{{title}}: {{urls | first}}"
+      },
+      "keep_events_for": 0,
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::PushoverAgent",
+      "name": "PushOverOzBargain",
+      "disabled": false,
+      "guid": "98c18979b8800ad94a37553ec0a69c80",
+      "options": {
+        "token": "a5qip4aq15wuk5v94orj5xwh3vswrv",
+        "user": "ucqa3y4ddczzx9dhpsfny6fdyiwg52",
+        "message": "{{ message }}",
+        "device": "iphone",
+        "title": "{{ title }}",
+        "url": "{{ url }}",
+        "url_title": "{{ url_title }}",
+        "priority": "{{ priority }}",
+        "timestamp": "{{ timestamp }}",
+        "sound": "{{ sound }}",
+        "retry": "{{ retry }}",
+        "expire": "{{ expire }}",
+        "html": "false",
+        "expected_receive_period_in_days": "1"
+      },
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::RssAgent",
+      "name": "OzBargainRssFeed",
+      "disabled": false,
+      "guid": "dc87c9ae07e43abc811571ef38e4ceab",
+      "options": {
+        "expected_update_period_in_days": "5",
+        "clean": "false",
+        "url": "https://www.ozbargain.com.au/deals/feed"
+      },
+      "schedule": "every_10m",
+      "keep_events_for": 259200
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "receiver": 1
+    },
+    {
+      "source": 2,
+      "receiver": 0
+    }
+  ],
+  "control_links": []
+}
