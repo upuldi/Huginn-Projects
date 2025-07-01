@@ -51,14 +51,13 @@ huginn-projects/
 ## 📸 Preview
 
 <img src="screenshots/1.png" alt="Push Notification" width="600"/>
-![Desktop Screenshot](screenshots/1.png)
-![Desktop Screenshot](screenshots/2.png)
-![Desktop Screenshot](screenshots/3.png)
-![Desktop Screenshot](screenshots/4.png)
-![Desktop Screenshot](screenshots/5.png)
-![Desktop Screenshot](screenshots/6.png)
-![Desktop Screenshot](screenshots/7.png)
-![Desktop Screenshot](screenshots/8.png)
-![Desktop Screenshot](screenshots/9.png)
-![Desktop Screenshot](screenshots/10.png)
-![Desktop Screenshot](screenshots/11.png)
+<img src="screenshots/2.png" alt="Push Notification" width="600"/>
+<img src="screenshots/3.png" alt="Push Notification" width="600"/>
+<img src="screenshots/4.png" alt="Push Notification" width="600"/>
+<img src="screenshots/5.png" alt="Push Notification" width="600"/>
+<img src="screenshots/6.png" alt="Push Notification" width="600"/>
+<img src="screenshots/7.png" alt="Push Notification" width="600"/>
+<img src="screenshots/8.png" alt="Push Notification" width="600"/>
+<img src="screenshots/9.png" alt="Push Notification" width="600"/>
+<img src="screenshots/10.png" alt="Push Notification" width="600"/>
+<img src="screenshots/11.png" alt="Push Notification" width="600"/>
