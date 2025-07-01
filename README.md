@@ -50,6 +50,7 @@ huginn-projects/
 
 ## 📸 Preview
 
+<img src="screenshots/1.png" alt="Push Notification" width="600"/>
 ![Desktop Screenshot](screenshots/1.png)
 ![Desktop Screenshot](screenshots/2.png)
 ![Desktop Screenshot](screenshots/3.png)
