@@ -46,3 +46,17 @@ huginn-projects/
 ├── ozbargain-alerts/
 ├── planka-notifier/
 └── README.md
+
+## 📸 Preview
+
+![Desktop Screenshot](screenshots/1.png)
+![Desktop Screenshot](screenshots/2.png)
+![Desktop Screenshot](screenshots/3.png)
+![Desktop Screenshot](screenshots/4.png)
+![Desktop Screenshot](screenshots/5.png)
+![Desktop Screenshot](screenshots/6.png)
+![Desktop Screenshot](screenshots/7.png)
+![Desktop Screenshot](screenshots/8.png)
+![Desktop Screenshot](screenshots/9.png)
+![Desktop Screenshot](screenshots/10.png)
+![Desktop Screenshot](screenshots/11.png)
