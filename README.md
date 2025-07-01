@@ -46,6 +46,7 @@ huginn-projects/
 ├── ozbargain-alerts/
 ├── planka-notifier/
 └── README.md
+```
 
 ## 📸 Preview
 
