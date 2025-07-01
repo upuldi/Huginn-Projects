@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "name": "WhoolesPriceCheck",
+  "description": "No description provided",
+  "source_url": false,
+  "guid": "53d3a54157cd45e5c43f4a0d794da4ce",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#5bc0de",
+  "icon": "gear",
+  "exported_at": "2025-07-01T05:44:06Z",
+  "agents": [
+    {
+      "type": "Agents::JqAgent",
+      "name": "ChickenEventFormatter",
+      "disabled": false,
+      "guid": "9b6a4c2fac21688f60e70a61bb24900e",
+      "options": {
+        "filter": ".body | fromjson | .Products | .[] | { \"Name\": .Name , \"Description\": .Description , \"InstorePrice\": .InstorePrice, \"PackageSize\": .PackageSize, \"InstoreWasPrice\": .InstoreWasPrice, \"InstoreSavingsAmount\": .InstoreSavingsAmount, \"InstoreCupString\": .InstoreCupString, \"CupString\": .CupString, \"Stockcode\": .Stockcode, \"UrlFriendlyName\": .UrlFriendlyName }",
+        "variables": {}
+      },
+      "keep_events_for": 0,
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::PostAgent",
+      "name": "ChickenSearch",
+      "disabled": false,
+      "guid": "c3dff24d172a7bf25359c501d72d5e9e",
+      "options": {
+        "post_url": "https://www.woolworths.com.au/apis/ui/Search/specials",
+        "expected_receive_period_in_days": "1",
+        "content_type": "json",
+        "method": "post",
+        "payload": {
+          "Filters": [
+            {
+              "Key": "Category",
+              "Items": [
+                {
+                  "Term": "1_D5A2236"
+                }
+              ]
+            }
+          ],
+          "PageNumber": "1",
+          "PageSize": "100",
+          "SearchTerm": "chicken",
+          "Location": "/shop/search/products?searchTerm=chicken&pageNumber=1&filter=Brand(Woolworths)",
+          "SortType": "TraderRelevance",
+          "IsHideUnavailableProducts": "true"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "emit_events": "true",
+        "no_merge": "false",
+        "output_mode": "clean"
+      },
+      "schedule": "every_1d",
+      "keep_events_for": 0,
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::PushoverAgent",
+      "name": "PushoverChicken",
+      "disabled": false,
+      "guid": "caad92d75d7f87e3cbb47e0683ceb168",
+      "options": {
+        "token": "avfootua9izbxzz9z5tghucbuu8mdi",
+        "user": "ucqa3y4ddczzx9dhpsfny6fdyiwg52",
+        "message": "<div><b style=\"color:#A5E6EA\">{{Description}} </b>, Price: $<b style=\"color:#3364FF\">{{InstorePrice}}</b>, Was: $<b style=\"color:#FF33D1\">{{InstoreWasPrice}}</b>, Saving: $<b style=\"color:#77FF33\">{{InstoreSavingsAmount}}</b> Value: <b style=\"color:#FF336E\">{{CupString}}</b></div>",
+        "device": "iphone",
+        "title": "{{ Name }}",
+        "url": "https://www.woolworths.com.au/shop/productdetails/{{Stockcode}}/{{UrlFriendlyName}}",
+        "url_title": "{{ url_title }}",
+        "priority": "{{ priority }}",
+        "timestamp": "{{ timestamp }}",
+        "sound": "{{ sound }}",
+        "retry": "{{ retry }}",
+        "expire": "{{ expire }}",
+        "ttl": 86400,
+        "html": "true",
+        "expected_receive_period_in_days": "1"
+      },
+      "propagate_immediately": false
+    },
+    {
+      "type": "Agents::TriggerAgent",
+      "name": "ChickenTrigger",
+      "disabled": false,
+      "guid": "f6498fe164e77829d1ee109dad3231a3",
+      "options": {
+        "expected_receive_period_in_days": "30",
+        "must_match": "1",
+        "rules": [
+          {
+            "type": "regex",
+            "value": "Whole Chicken",
+            "path": "Name"
+          },
+          {
+            "type": "regex",
+            "value": "Family Roast Chicken",
+            "path": "Name"
+          },
+          {
+            "type": "regex",
+            "value": "Breast Fillet",
+            "path": "Name"
+          },
+          {
+            "type": "regex",
+            "value": "Thigh Cutlets",
+            "path": "Name"
+          },
+          {
+            "type": "regex",
+            "value": "chicken drumsticks",
+            "path": "Name"
+          },
+          {
+            "type": "regex",
+            "value": "Chicken Maryland",
+            "path": "Name"
+          },
+          {
+            "type": "regex",
+            "value": "Chicken Wings",
+            "path": "Name"
+          }
+        ],
+        "keep_event": "true"
+      },
+      "keep_events_for": 0,
+      "propagate_immediately": false
+    }
+  ],
+  "links": [
+    {
+      "source": 0,
+      "receiver": 3
+    },
+    {
+      "source": 1,
+      "receiver": 0
+    },
+    {
+      "source": 3,
+      "receiver": 2
+    }
+  ],
+  "control_links": []
+}
